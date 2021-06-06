@@ -3,12 +3,15 @@ pragma solidity ^0.5.0;
 contract Token {
 	
 	// STATE VARIABLES
-	uint storedData;
-	string public name = "My Name";
+	string public name = 'Energy On Chain Token';
+	string public symbol = 'EOC';
+	uint256 public decimals = 18;
+	uint256 public totalSupply;
 
 
-	// FUNCTIONS
-	function get() public view returns (uint) {
-		return storedData;
+	// CONSTRUCTORS
+	constructor() public {
+		totalSupply = 1000000 * (10 ** decimals);
 	}
+
 }
