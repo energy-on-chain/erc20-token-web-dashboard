@@ -13,6 +13,10 @@ contract Token {
 	mapping(address => uint256) public balanceOf;	// track balances
 
 
+	// EVENTS
+	event Transfer(address indexed from, address indexed to, uint256 value);
+
+
 	// CONSTRUCTORS
 	constructor() public {
 		totalSupply = 1000000 * (10 ** decimals);
@@ -22,8 +26,11 @@ contract Token {
 
 	// METHODS
 	function transfer (address _to, uint256 _value) public returns (bool success) {
+		require(_to != address(0));
+		require(balanceOf[msg.sender] >= _value);
 		balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);
 		balanceOf[_to] = balanceOf[_to].add(_value);
+		emit Transfer(msg.sender, _to, _value);
 		return true;
 	}
 	// function transferFrom(address _from, address _to, uint256 _value) public returns (bool success);
@@ -32,6 +39,5 @@ contract Token {
 
 
 	// EVENTS
-	// event Transfer(address indexed _from, address indexed _to, uint256 _value);
 	// event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 }
