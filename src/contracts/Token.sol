@@ -11,11 +11,11 @@ contract Token {
 	uint256 public decimals = 18;
 	uint256 public totalSupply;
 	mapping(address => uint256) public balanceOf;	// track balances
-
+	mapping(address => mapping(address => uint256)) public allowance; // exchange approval limits
 
 	// EVENTS
 	event Transfer(address indexed from, address indexed to, uint256 value);
-
+	event Approval(address indexed owner, address indexed spender, uint256 value);
 
 	// CONSTRUCTORS
 	constructor() public {
@@ -23,21 +23,30 @@ contract Token {
 		balanceOf[msg.sender] = totalSupply;
 	}
 
-
-	// METHODS
+	// FUNCTIONS
 	function transfer (address _to, uint256 _value) public returns (bool success) {
-		require(_to != address(0));
 		require(balanceOf[msg.sender] >= _value);
-		balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);
-		balanceOf[_to] = balanceOf[_to].add(_value);
-		emit Transfer(msg.sender, _to, _value);
+		_transfer(msg.sender, _to, _value);
 		return true;
 	}
-	// function transferFrom(address _from, address _to, uint256 _value) public returns (bool success);
-	// function approve(address _spender, uint256 _value) public returns (bool success);
+
+	function _transfer(address _from, address _to, uint256 _value) internal {
+		require(_to != address(0));
+		balanceOf[_from] = balanceOf[_from].sub(_value);
+		balanceOf[_to] = balanceOf[_to].add(_value);
+		emit Transfer(msg.sender, _to, _value);
+	}
+
+	function approve(address _spender, uint256 _value) public returns (bool success) {
+		require(_spender != address(0));
+		allowance[msg.sender][_spender] = _value;
+		emit Approval(msg.sender, _spender, _value);
+		return true;
+	}
+
+	function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+		_transfer(_from, _to, _value);
+		return true;
+	}
 	// function allowance(address _owner, address _spender) public value returns (uint256 remaining);
-
-
-	// EVENTS
-	// event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 }
