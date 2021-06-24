@@ -26,6 +26,7 @@ contract Exchange {
 	// STATE VARIABLES
 	address public feeAccount;    // the account that receives exchange fees
 	uint256 public feePercent;    // the fee percentage
+	address constant ETHER = address(0);    // store Ether in tokens mapping with blank address
 	mapping(address => mapping(address => uint256)) public tokens;    // maps all deposited tokens to all users who have deposited them
 
 
@@ -41,7 +42,13 @@ contract Exchange {
 
 
 	// FUNCTIONS
+	function depositEther() payable public {
+		tokens[ETHER][msg.sender] = tokens[ETHER][msg.sender].add(msg.value);
+		emit Deposit(ETHER, msg.sender, msg.value, tokens[ETHER][msg.sender]);
+	}
+
 	function depositToken(address _token, uint _amount) public {
+		require(_token != ETHER);
 		// Send tokens to this contract
 		require(Token(_token).transferFrom(msg.sender, address(this), _amount));
 		// Manage deposit
