@@ -4,10 +4,10 @@
 // Handle trades, charge fees
 
 // TODO:
-// [X] Set the fee percent and fee account
-// [] Deposit ether
+// [x] Set the fee percent and fee account
+// [x] Deposit ether
 // [] Withdraw ether
-// [] Deposit tokens
+// [x] Deposit tokens
 // [] Withdraw tokens
 // [] Check balances
 // [] Make order
@@ -39,21 +39,31 @@ contract Exchange {
 
 	// EVENTS
 	event Deposit(address token, address user, uint256 amount, uint256 balance);
+	event Withdraw(address token, address user, uint256 amount, uint256 balance);
 
 
 	// FUNCTIONS
+	// fallback: reverts if Ether is sent to this smart contract by mistake
+	function() external {
+		revert();
+	}
+
 	function depositEther() payable public {
 		tokens[ETHER][msg.sender] = tokens[ETHER][msg.sender].add(msg.value);
 		emit Deposit(ETHER, msg.sender, msg.value, tokens[ETHER][msg.sender]);
 	}
 
+	function withdrawEther(uint256 _amount) public {
+		require(tokens[ETHER][msg.sender] >= _amount);
+		tokens[ETHER][msg.sender] = tokens[ETHER][msg.sender].sub(_amount);
+		msg.sender.transfer(_amount);
+		emit Withdraw(ETHER, msg.sender, _amount, tokens[ETHER][msg.sender]);
+	}
+
 	function depositToken(address _token, uint _amount) public {
 		require(_token != ETHER);
-		// Send tokens to this contract
 		require(Token(_token).transferFrom(msg.sender, address(this), _amount));
-		// Manage deposit
 		tokens[_token][msg.sender] = tokens[_token][msg.sender].add(_amount);
-		// Emit event
 		emit Deposit(_token, msg.sender, _amount, tokens[_token][msg.sender]);
 	}
 }
