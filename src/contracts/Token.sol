@@ -48,5 +48,4 @@ contract Token {
 		_transfer(_from, _to, _value);
 		return true;
 	}
-	// function allowance(address _owner, address _spender) public value returns (uint256 remaining);
 }

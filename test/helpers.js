@@ -5,3 +5,10 @@ export const tokens = (n) => {
 		web3.utils.toWei(n.toString(), 'ether')
 	)
 }
+
+export const eventCheck = (result, eventString) => {
+	const log = result.logs[0]
+	log.event.should.eq(eventString)
+	const event = log.args
+	return event
+}

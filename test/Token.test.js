@@ -1,4 +1,4 @@
-import {tokens, EVM_REVERT} from './helpers'
+import {eventCheck, tokens, EVM_REVERT} from './helpers'
 
 const Token = artifacts.require('./Token')
 
@@ -65,9 +65,7 @@ contract('Token', ([deployer, receiver, exchange]) => {
 			})
 
 			it('emits a Transfer event', async() => {
-				const log = result.logs[0]
-				log.event.should.eq('Transfer')
-				const event = log.args
+				const event = eventCheck(result, 'Transfer')
 				event.from.toString().should.equal(deployer, 'from is correct')
 				event.to.toString().should.equal(receiver, 'to is correct')
 				event.value.toString().should.equal(amount.toString(), 'value is correct')
@@ -107,9 +105,7 @@ contract('Token', ([deployer, receiver, exchange]) => {
 			})
 
 			it('emits an Approval event', async() => {
-				const log = result.logs[0]
-				log.event.should.eq('Approval')
-				const event = log.args
+				const event = eventCheck(result, 'Approval')
 				event.owner.toString().should.equal(deployer, 'owner is correct')
 				event.spender.toString().should.equal(exchange, 'spender is correct')
 				event.value.toString().should.equal(amount.toString(), 'value is correct')
@@ -146,9 +142,7 @@ contract('Token', ([deployer, receiver, exchange]) => {
 			})
 
 			it('emits a Transfer event', async() => {
-				const log = result.logs[0]
-				log.event.should.eq('Transfer')
-				const event = log.args
+				const event = eventCheck(result, 'Transfer')
 				event.from.toString().should.equal(exchange, 'from is correct')
 				event.to.toString().should.equal(receiver, 'to is correct')
 				event.value.toString().should.equal(amount.toString(), 'value is correct')
