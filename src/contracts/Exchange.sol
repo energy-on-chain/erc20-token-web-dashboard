@@ -1,20 +1,3 @@
-// FUNCITONAL OVERVIEW:
-// Deposit and withdraw funds
-// Manage orders, make or cancel
-// Handle trades, charge fees
-
-// TODO:
-// [x] Set the fee percent and fee account
-// [x] Deposit ether
-// [x] Withdraw ether
-// [x] Deposit tokens
-// [x] Withdraw tokens
-// [x] Check balances
-// [x] Make order
-// [x] Cancel order
-// [] Fill order
-// [] Charge fees
-
 pragma solidity ^0.5.0;
 
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
@@ -124,7 +107,6 @@ contract Exchange {
 	function _trade(uint256 _orderId, address _user, address _tokenGet, uint256 _amountGet, address _tokenGive, uint256 _amountGive) internal {
 		// Fee paid by the user that fills the order, aka msg.sender
 		uint256 _feeAmount = _amountGive.mul(feePercent).div(100);
-
 
 		// Execute trade
 		tokens[_tokenGet][msg.sender] = tokens[_tokenGet][msg.sender].sub(_amountGet.add(_feeAmount));
