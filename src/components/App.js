@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
 import './App.css';
-import Web3 from 'web3'
-// import Token from '../abis/Token.json'
+import Web3 from 'web3';
+import Token from '../abis/Token.json'
 
 class App extends Component {
-  // componentWillMount() {
-  //   this.loadBlockchainData()
-  // }
 
-  // async loadBlockchainData() {
-  //   const web3 = new Web3(window.ethereum)
-  //   const networkId = await web3.eth.net.getId()
-  //   const accounts = await web3.eth.getAccounts()
-  //   const token = new web3.eth.Contract(Token.abi, Token.networks[networkId].address)
-  //   const totalSupply = await token.methods.totalSupply().call()
-  //   console.log("totalSupply", totalSupply)
-  // }
+  componentWillMount() {
+    this.loadBlockchainData()
+  }
+
+  async loadBlockchainData() {
+    const web3 = new Web3(Web3.givenProvider || 'http://localhost:7545')
+    const network = await web3.eth.net.getNetworkType()
+    const networkId = await web3.eth.net.getId()
+    const accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
+    const abi = Token.abi
+    const networks = Token.networks
+    console.log('network', network)
+    console.log('accounts', accounts)
+    console.log('abi', abi)
+    console.log('networks', networks)
+    console.log('networkId', networkId)
+    console.log('network data', Token.networks[networkId])
+    console.log('network address', Token.networks[networkId].address)
+
+    // Instantiate
+    const token = new web3.eth.Contract(abi, Token.networks[networkId].address)
+    const totalSupply = await token.methods.totalSupply().call()
+    console.log('token', token)
+    console.log('totalSupply', totalSupply)
+  }
 
   render() {
     return (
