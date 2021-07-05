@@ -1,34 +1,21 @@
-import React, { Component } from 'react';
-import './App.css';
-import Web3 from 'web3';
-import Token from '../abis/Token.json'
+import React, { Component } from 'react'
+import './App.css'
+import { connect } from 'react-redux'
+import { loadWeb3, loadAccount, loadToken, loadExchange } from '../store/interactions'
 
 class App extends Component {
 
   componentWillMount() {
-    this.loadBlockchainData()
+    this.loadBlockchainData(this.props.dispatch)
   }
 
-  async loadBlockchainData() {
-    const web3 = new Web3(Web3.givenProvider || 'http://localhost:7545')
+  async loadBlockchainData(dispatch) {
+    const web3 = loadWeb3(dispatch)
+    const accounts = await loadAccount(web3, dispatch)
     const network = await web3.eth.net.getNetworkType()
     const networkId = await web3.eth.net.getId()
-    const accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
-    const abi = Token.abi
-    const networks = Token.networks
-    console.log('network', network)
-    console.log('accounts', accounts)
-    console.log('abi', abi)
-    console.log('networks', networks)
-    console.log('networkId', networkId)
-    console.log('network data', Token.networks[networkId])
-    console.log('network address', Token.networks[networkId].address)
-
-    // Instantiate
-    const token = new web3.eth.Contract(abi, Token.networks[networkId].address)
-    const totalSupply = await token.methods.totalSupply().call()
-    console.log('token', token)
-    console.log('totalSupply', totalSupply)
+    const token = loadToken(web3, networkId, dispatch)
+    const exchange = loadExchange(web3, networkId, dispatch)
   }
 
   render() {
@@ -122,4 +109,10 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    // TODO: fill me in
+  }
+}
+
+export default connect(mapStateToProps)(App);
