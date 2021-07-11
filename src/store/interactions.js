@@ -1,4 +1,4 @@
-import { web3Loaded, web3AccountLoaded, tokenLoaded, exchangeLoaded, cancelledOrdersLoaded, filledOrdersLoaded, allOrdersLoaded, orderCancelling, orderCancelled } from './actions'
+import { web3Loaded, web3AccountLoaded, tokenLoaded, exchangeLoaded, cancelledOrdersLoaded, filledOrdersLoaded, allOrdersLoaded, orderCancelling, orderCancelled, orderFilling, orderFilled } from './actions'
 import Web3 from 'web3'
 import Token from '../abis/Token.json'
 import Exchange from '../abis/Exchange.json'
@@ -63,6 +63,16 @@ export const loadAllOrders = async (exchange, dispatch) => {
 	dispatch(allOrdersLoaded(allOrders))
 }
 
+export const subscribeToEvents = async (exchange, dispatch) => {
+	exchange.events.Cancel({}, (error, event) => {
+		dispatch(orderCancelled(event.returnValues))
+	})
+	exchange.events.Trade({}, (error, event) => {
+		console.log('Trade event was triggered fyi')
+		dispatch(orderFilled(event.returnValues))
+	})
+}
+
 export const cancelOrder = async (dispatch, exchange, order, account) => {
 	exchange.methods.cancelOrder(order.id).send({from: account})
 	.on('transactionHash', (hash) => {
@@ -74,8 +84,18 @@ export const cancelOrder = async (dispatch, exchange, order, account) => {
 	})
 }
 
-export const subscribeToEvents = async (exchange, dispatch) => {
-	exchange.events.Cancel({}, (error, event) => {
-		dispatch(orderCancelled(event.returnValues))
+export const fillOrder = async (dispatch, exchange, order, account) => {
+	console.log('here is the order:', order)
+	console.log('here is the order count:', exchange.methods.orderCount().call({from: account}))
+	console.log('here is the order cancelled check result:', exchange.methods.orderCancelled(order.id).call({from: account}))
+	console.log('here is the order filled check result:', exchange.methods.orderFilled(order.id).call({from: account}))
+	exchange.methods.fillOrder(order.id).send({from: account, gas: '6721975'})
+	.on('transactionHash', (hash) => {
+		dispatch(orderFilling())
+	})
+	.on('error', (error) => {
+		console.log("Here's the error!", error)
+		console.log('was the order still placed in the filled array?', exchange.methods.orderFilled(order.id).call({from: account}))
+		window.alert('There was an error with filling the order!')
 	})
 }

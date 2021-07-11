@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-// Reducers update the redux store based on what actions have occurred
+// Reducers update the state of the redux store based on the actions that have occurred
 
 function web3(state = {}, action) {
   switch (action.type) {
@@ -23,6 +23,7 @@ function token(state = {}, action) {
 }
 
 function exchange(state = {}, action) {
+  let index, data
   switch (action.type) {
     case 'EXCHANGE_LOADED':
       return { ...state, loaded: true, contract: action.contract }
@@ -36,6 +37,17 @@ function exchange(state = {}, action) {
       return { ...state, orderCancelling: true}
     case 'ORDER_CANCELLED':
       return { ...state, orderCancelling: false, cancelledOrders: { ...state.cancelledOrders, data: [ ...state.cancelledOrders.data, action.order ] } }
+    case 'ORDER_FILLING':
+      return { ...state, orderFilling: true}
+    case 'ORDER_FILLED':
+      // Prevent duplicate orders
+      index = state.filledOrders.data.findIndex(order => order.id === action.order.id)
+      if(index === -1) {
+        data = [...state.filledOrders.data, action.order]
+      } else {
+        data = state.filledOrders.data
+      }
+      return { ...state, orderFilling: false, filledOrders: { ...state.filledOrders, data} }
     default:
       return state
   }

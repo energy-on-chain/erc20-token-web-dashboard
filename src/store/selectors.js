@@ -1,4 +1,4 @@
-import { get, reject, groupBy, order, maxBy, minBy } from 'lodash'
+import { get, reject, groupBy, maxBy, minBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { ETHER_ADDRESS, tokens, ether, RED, GREEN } from '../helpers.js'
 import moment from 'moment'
@@ -165,7 +165,7 @@ const decorateOrderBookOrder = (order) => {
 		...order,
 		orderType,
 		orderTypeClass: (orderType === 'buy' ? GREEN : RED),
-		orderFillClass: orderType === 'buy' ? 'sell' : 'buy'
+		orderFillAction: orderType === 'buy' ? 'sell' : 'buy'
 	})
 }
 
@@ -303,3 +303,6 @@ const buildGraphData = (orders) => {
 
 const orderCancelling = state => get(state, 'exchange.orderCancelling', false)
 export const orderCancellingSelector = new createSelector(orderCancelling, status => status)
+
+const orderFilling = state => get(state, 'exchange.orderFilling', false)
+export const orderFillingSelector = new createSelector(orderFilling, status => status)
