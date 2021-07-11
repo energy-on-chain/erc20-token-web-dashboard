@@ -1,9 +1,9 @@
-import { web3Loaded, web3AccountLoaded, tokenLoaded, exchangeLoaded, cancelledOrdersLoaded, filledOrdersLoaded, allOrdersLoaded } from './actions'
+import { web3Loaded, web3AccountLoaded, tokenLoaded, exchangeLoaded, cancelledOrdersLoaded, filledOrdersLoaded, allOrdersLoaded, orderCancelling, orderCancelled } from './actions'
 import Web3 from 'web3'
 import Token from '../abis/Token.json'
 import Exchange from '../abis/Exchange.json'
 
-// Interactions extract data from the connected blockchain
+// Interactions handle communication between the blockchain and the redux store
 
 export const loadWeb3 = (dispatch) => {
 	const connection = new Web3(Web3.givenProvider || 'http://localhost:7545')
@@ -61,4 +61,21 @@ export const loadAllOrders = async (exchange, dispatch) => {
 	const allOrders = orderStream.map((event) => event.returnValues)
 	// Add open orders to the redux store
 	dispatch(allOrdersLoaded(allOrders))
+}
+
+export const cancelOrder = async (dispatch, exchange, order, account) => {
+	exchange.methods.cancelOrder(order.id).send({from: account})
+	.on('transactionHash', (hash) => {
+		dispatch(orderCancelling())
+	})
+	.on('error', (error) => {
+		console.log(error)
+		window.alert('There was an error with cancelling the order!')
+	})
+}
+
+export const subscribeToEvents = async (exchange, dispatch) => {
+	exchange.events.Cancel({}, (error, event) => {
+		dispatch(orderCancelled(event.returnValues))
+	})
 }

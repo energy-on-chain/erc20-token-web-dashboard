@@ -3,7 +3,7 @@ import { createSelector } from 'reselect'
 import { ETHER_ADDRESS, tokens, ether, RED, GREEN } from '../helpers.js'
 import moment from 'moment'
 
-// Selectors extract data that is being tracked in the redux state so it can be inserted into the React app html
+// Selectors handle communication between the redux store and the React app
 
 const account = state => get(state, 'web3.account')
 export const accountSelector = new createSelector(account, a => a)
@@ -15,7 +15,7 @@ const exchangeLoaded = state => get(state, 'exchange.loaded', false)
 export const exchangeLoadedSelector = new createSelector(exchangeLoaded, el => el)
 
 const exchange = state => get(state, 'exchange.contract')
-export const exchangeSelector = createSelector(exchange, e => e)
+export const exchangeSelector = new createSelector(exchange, e => e)
 
 export const contractsLoadedSelector = new createSelector(tokenLoaded, exchangeLoaded, (tl, el) => (tl && el))
 
@@ -25,10 +25,10 @@ const allOrders = state => get(state, 'exchange.allOrders.data', [])
 
 // Cancelled Orders
 const cancelledOrdersLoaded = state => get(state, 'exchange.cancelledOrders.loaded', false)
-export const cancelledOrdersLoadedSelector = createSelector(cancelledOrdersLoaded, loaded => loaded)
+export const cancelledOrdersLoadedSelector = new createSelector(cancelledOrdersLoaded, loaded => loaded)
 
 const cancelledOrders = state => get(state, 'exchange.cancelledOrders.data', [])
-export const cancelledOrdersSelector = createSelector(cancelledOrders, o => o)
+export const cancelledOrdersSelector = new createSelector(cancelledOrders, o => o)
 
 // Filled Orders
 const filledOrdersLoaded = state => get(state, 'exchange.filledOrders.loaded', false)
@@ -109,8 +109,8 @@ const tokenPriceClass = (tokenPrice, orderId, previousOrder) => {
 
 const openOrders = state => {
 	const all = allOrders(state)
-	const cancelled = cancelledOrders(state)
 	const filled = filledOrders(state)
+	const cancelled = cancelledOrders(state)
 
 	const openOrders = reject(all, (order) => {
 		const orderFilled = filled.some((o) => o.id === order.id)
@@ -223,10 +223,10 @@ export const myOpenOrdersSelector = new createSelector(
 	(account, orders) => {
 		// Find orders
 		orders = orders.filter((o) => o.user.toUpperCase() === account.toUpperCase())
+		// Decorate orders (add display attributes)
+		orders = decorateMyOpenOrders(orders)
 		// Sort by date descending
 		orders = orders.sort((a,b) => b.timestamp - a.timestamp)
-		// Decorate orders (add display attributes)
-		orders = decorateMyOpenOrders(orders, account)
 		return orders
 	}
 )
@@ -300,3 +300,6 @@ const buildGraphData = (orders) => {
 	})
 	return graphData
 }
+
+const orderCancelling = state => get(state, 'exchange.orderCancelling', false)
+export const orderCancellingSelector = new createSelector(orderCancelling, status => status)

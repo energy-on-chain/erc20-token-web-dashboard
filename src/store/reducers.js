@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+// Reducers update the redux store based on what actions have occurred
+
 function web3(state = {}, action) {
   switch (action.type) {
     case 'WEB3_LOADED':
@@ -30,7 +32,10 @@ function exchange(state = {}, action) {
       return { ...state, filledOrders: {loaded: true, data: action.filledOrders}}
     case 'ALL_ORDERS_LOADED':
       return { ...state, allOrders: {loaded: true, data: action.allOrders}}
-
+    case 'ORDER_CANCELLING':
+      return { ...state, orderCancelling: true}
+    case 'ORDER_CANCELLED':
+      return { ...state, orderCancelling: false, cancelledOrders: { ...state.cancelledOrders, data: [ ...state.cancelledOrders.data, action.order ] } }
     default:
       return state
   }
