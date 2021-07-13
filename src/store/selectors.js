@@ -8,11 +8,17 @@ import moment from 'moment'
 const account = state => get(state, 'web3.account')
 export const accountSelector = new createSelector(account, a => a)
 
+const web3 = state => get(state, 'web3.connection')
+export const web3Selector = createSelector(web3, w => w)
+
 const tokenLoaded = state => get(state, 'token.loaded', false)
 export const tokenLoadedSelector = new createSelector(tokenLoaded, tl => tl)
 
 const exchangeLoaded = state => get(state, 'exchange.loaded', false)
 export const exchangeLoadedSelector = new createSelector(exchangeLoaded, el => el)
+
+const token = state => get(state, 'token.contract')
+export const tokenSelector = new createSelector(token, t => t)
 
 const exchange = state => get(state, 'exchange.contract')
 export const exchangeSelector = new createSelector(exchange, e => e)

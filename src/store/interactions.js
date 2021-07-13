@@ -99,3 +99,7 @@ export const fillOrder = async (dispatch, exchange, order, account) => {
 		window.alert('There was an error with filling the order!')
 	})
 }
+
+export const loadBalances = async (dispatch, web3, exchange, token, account) => {
+
+}
