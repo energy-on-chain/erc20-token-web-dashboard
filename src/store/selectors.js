@@ -1,6 +1,6 @@
 import { get, reject, groupBy, maxBy, minBy } from 'lodash'
 import { createSelector } from 'reselect'
-import { ETHER_ADDRESS, tokens, ether, RED, GREEN } from '../helpers.js'
+import { ETHER_ADDRESS, tokens, ether, RED, GREEN, formatBalance } from '../helpers.js'
 import moment from 'moment'
 
 // Selectors handle communication between the redux store and the React app
@@ -312,3 +312,50 @@ export const orderCancellingSelector = new createSelector(orderCancelling, statu
 
 const orderFilling = state => get(state, 'exchange.orderFilling', false)
 export const orderFillingSelector = new createSelector(orderFilling, status => status)
+
+// BALANCES
+const balancesLoading = state => get(state, 'exchange.balancesLoading', true)
+export const balancesLoadingSelector = createSelector(balancesLoading, status => status)
+
+const etherBalance = state => get(state, 'web3.balance', 0)
+export const etherBalanceSelector = createSelector(etherBalance, (balance) => {
+	return formatBalance(balance)
+	}
+)
+
+const tokenBalance = state => get(state, 'token.balance', 0)
+export const tokenBalanceSelector = createSelector(tokenBalance, (balance) => {
+	return formatBalance(balance)
+	}
+)
+
+const exchangeEtherBalance = state => get(state, 'exchange.etherBalance', 0)
+export const exchangeEtherBalanceSelector = createSelector(exchangeEtherBalance, (balance) => {
+	return formatBalance(balance)
+})
+
+const exchangeTokenBalance = state => get(state, 'exchange.tokenBalance', 0)
+export const exchangeTokenBalanceSelector = createSelector(exchangeTokenBalance, (balance) => {
+	return formatBalance(balance)
+})
+
+const etherDepositAmount = state => get(state, 'exchange.etherDepositAmount', 0)
+export const etherDepositAmountSelector = createSelector(etherDepositAmount, amount => amount)
+
+const etherWithdrawAmount = state => get(state, 'exchange.etherWithdrawAmount', 0)
+export const etherWithdrawAmountSelector = createSelector(etherWithdrawAmount, amount => amount)
+
+const tokenDepositAmount = state => get(state, 'exchange.tokenDepositAmount', 0)
+export const tokenDepositAmountSelector = createSelector(tokenDepositAmount, amount => amount)
+
+const tokenWithdrawAmount = state => get(state, 'exchange.tokenWithdrawAmount', 0)
+export const tokenWithdrawAmountSelector = createSelector(tokenWithdrawAmount, amount => amount)
+
+
+
+
+
+
+
+
+
