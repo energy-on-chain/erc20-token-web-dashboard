@@ -1,70 +1,23 @@
-# Getting Started with Create React App
+# Welcome to "blockchain_developer_bootcamp"!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## [ DESCRIPTION ]
 
-## Available Scripts
+This repo contains the Solidity and React code that implements a standard ERC20 token and allows the user to interact with it on the Ethereum blockchain via a browser-based GUI.  All code is based on the "Blockchain Developer Bootcamp" project from [DApp University](https://www.dappuniversity.com/). 
 
-In the project directory, you can run:
+## [ BACKGROUND ]
 
-### `npm start`
+I started this project to gain exposure to Solidity programming and the React framework.  The project is split into two parts.  The first part focuses on building an ERC20 token in Solidity.  For this I used [Truffle](https://www.trufflesuite.com/docs/truffle/overview) and [Ganache](https://www.trufflesuite.com/ganache) to implement the necessary contracts and deploy it to the Ethereum test net.  The second part focused on creating a clean UI in a web browser using React.  By connecting the React App with the blockchain via Metamask, I was able to include several useful features such as price charts, order books, and the ability to create / delete new orders.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## [ DEMO ]
+![Alt Text](blockchain_developer_bootcamp_demo.gif)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## [ STACK ]
+- Truffle Suite (including Ganache)
+- Solidity
+- Javascript (React, Redux, Mocha)
+- Infura
+- Heroku
 
-### `npm test`
+## [ LESSONS LEARNED ]
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project was my first experience with both Solidity and React.  The first half of the project helped acclimate me to the Solidity language, interacting with the test blockchain supplied by Ganache, and test-driven development in the Truffle environment.  Taking the next step and connecting my ERC20 token to the React App was very benificial because it made me work through the challenges associated with making Solidity smart contracts and their functions easily available to users through an effective UI in React.  Had I only worked on learning Solidity and React on different projects, it would not have been as powerful. Moving forward I feel excited to continue growing my knowledge of Solidity and enabling others to interact with my smart contracts via responsive interfaces.
