@@ -26,3 +26,6 @@ src/abis
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+blockchain_developer_bootcamp.sublime-project
+blockchain_developer_bootcamp.sublime-workspace
+dapp_flow_diagram.png
