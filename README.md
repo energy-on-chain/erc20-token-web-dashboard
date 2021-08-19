@@ -8,8 +8,6 @@ This repo contains the Solidity and React code that implements a standard ERC20 
 
 I started this project to gain exposure to Solidity programming and the React framework.  The project is split into two parts.  The first part focuses on building an ERC20 token in Solidity.  For this I used [Truffle](https://www.trufflesuite.com/docs/truffle/overview) and [Ganache](https://www.trufflesuite.com/ganache) to implement the necessary contracts and deploy it to the Ethereum test net.  The second part focused on creating a clean UI in a web browser using React.  By connecting the React App with the blockchain via Metamask, I was able to include several useful features such as price charts, order books, and the ability to create / delete new orders.
 
-## [ DEMO ]
-![Alt Text](blockchain_developer_bootcamp_demo.gif)
 
 ## [ STACK ]
 - Truffle Suite (including Ganache)
