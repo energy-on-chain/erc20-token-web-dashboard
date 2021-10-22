@@ -2,7 +2,7 @@
 
 ## [ DESCRIPTION ]
 
-This repo contains the Solidity and React code that implements a standard ERC20 token and allows the user to interact with it on the Ethereum blockchain via a browser-based GUI.  All code is based on the "Blockchain Developer Bootcamp" project from [DApp University](https://www.dappuniversity.com/). 
+This repo contains the Solidity and React code that implements a standard ERC20 token and allows the user to interact with it on the Ethereum blockchain via a browser-based GUI. 
 
 ## [ BACKGROUND ]
 
