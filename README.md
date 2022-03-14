@@ -1,4 +1,4 @@
-# Welcome to "blockchain_developer_bootcamp"!
+# Welcome to "erc20-token-web-dashboard"!
 
 ## [ DESCRIPTION ]
 
