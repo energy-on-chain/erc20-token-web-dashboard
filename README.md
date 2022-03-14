@@ -19,3 +19,5 @@ I started this project to gain exposure to Solidity programming and the React fr
 ## [ LESSONS LEARNED ]
 
 This project was my first experience with both Solidity and React.  The first half of the project helped acclimate me to the Solidity language, interacting with the test blockchain supplied by Ganache, and test-driven development in the Truffle environment.  Taking the next step and connecting my ERC20 token to the React App was very benificial because it made me work through the challenges associated with making Solidity smart contracts and their functions easily available to users through an effective UI in React.  Had I only worked on learning Solidity and React on different projects, it would not have been as powerful. Moving forward I feel excited to continue growing my knowledge of Solidity and enabling others to interact with my smart contracts via responsive interfaces.
+
+![](blockchain_developer_bootcamp_demo.gif)
